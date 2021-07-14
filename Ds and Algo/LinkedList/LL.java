@@ -1,3 +1,4 @@
+//I prefer to just use the head variable to traverse the linked list, so there is no getValue() method, or next() method.
 class LL {
   Node head;
   Node tail;
@@ -13,16 +14,6 @@ class LL {
       tail = add;
       length++;
     }
-  }
-  public void add(Task num, int index) {
-    Node find = head;
-    Node add = new Node(num);
-    length++;
-    for (int i = 0; i < index; i++) {
-      find = find.next;
-    }
-    add.next = find.next;
-    find.next = add;
   }
   public void del(int index) {
     length--;
