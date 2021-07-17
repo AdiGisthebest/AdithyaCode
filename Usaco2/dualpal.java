@@ -6,30 +6,41 @@ import java.math.BigInteger;
 /*
 ID: incredi2
 LANG: JAVA
-TASK: palsquare
+TASK: dualpal
 */
 
-class palsquare {
+class dualpal {
     public void read() {
         File file = null;
         Scanner scan = null;
         try {
-            file = new File("palsquare.in");
+            file = new File("dualpal.in");
             scan = new Scanner(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int base = Integer.parseInt(scan.nextLine());
-        this.solve(base);
+        String[] arr = scan.nextLine().split(" ");
+        int after = Integer.parseInt(arr[0]);
+        String num = arr[1];
+        this.solve(after,num);
     }
-    public void solve(int base) {
-        BigInteger bigInt = BigInteger.ONE;
-        for(int i = 1; i < 300; i ++) {
-            BigInteger square = bigInt.multiply(bigInt);
-            if(this.check(square.toString(base))) {
-                System.out.println(bigInt.toString(base).toUpperCase() + " " + square.toString(base).toUpperCase());
-            }
+    public void solve(int after, String num) {
+        BigInteger bigInt = new BigInteger(num);
+        int hits = 0;
+        int checkHits = 0;
+        while(hits < after) {
             bigInt = bigInt.add(BigInteger.ONE);
+            for (int i = 2; i < 11; i++) {
+                if (this.check(bigInt.toString(i))) {
+                    checkHits++;
+                }
+                if (checkHits >= 2) {
+                    hits++;
+                    System.out.println(bigInt.toString(10));
+                    break;
+                }
+            }
+            checkHits = 0;
         }
     }
     public boolean check(String num) {
@@ -42,13 +53,13 @@ class palsquare {
     }
     public static void main(String[] args) {
         try {
-            File file = new File("palsquare.out");
+            File file = new File("dualpal.out");
             PrintStream stream = new PrintStream(file);
             System.setOut(stream);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        palsquare pal = new palsquare();
+        dualpal pal = new dualpal();
         pal.read();
     }
 }
