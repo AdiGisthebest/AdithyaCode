@@ -10,7 +10,8 @@ TASK: wormhole
 */
 
 class wormhole {
-    ArrayList<int[][]>  pairs;
+    ArrayList<ArrayList<int[]>> pairs = new ArrayList<>();
+    HashMap<Integer,int[]> set = new HashMap<>();
     public void read() {
         File file = null;
         Scanner scan = null;
@@ -21,38 +22,45 @@ class wormhole {
             e.printStackTrace();
         }
         int length = Integer.parseInt(scan.nextLine());
-        int[] arr = new int[length];
-        for(int i = 0; i < arr.length; i++) {
-            arr[i] = Integer.parseInt(scan.nextLine());
+        ArrayList<Integer> nums = new ArrayList<>();
+        for(int i = 0; i < length; i++) {
+            String[] arr =scan.nextLine().split(" ");
+            int[] intArr = new int[2];
+            intArr[0] = Integer.parseInt(arr[0]);
+            intArr[1] = Integer.parseInt(arr[1]);
+            set.put(i,intArr);
+            nums.add(i);
         }
-        Arrays.sort(arr);
-        int[] diffsSort = new int[length/2];
-        int min = arr[0];
-        int propMin = 0;
-        int count = 0;
-        for(int i = 0; i < arr.length-1; i++) {
-            if(propMin < arr[i]) {
-                min = propMin;
-            } else {
-                min = arr[i];
-            }
-            diffsSort[i] = arr[length - 1 - i] - min;
-            if(diffsSort[i] <= 17) {
-                break;
-            } else {
-                int diff = diffsSort[i] - 17;
-                if(diff%2 == 0) {
-                    propMin = min + (int)Math.pow(((int)diff/2),2);
-                    count = count + 2 * (int)Math.pow(((int)diff/2),2);
-                } else {
-                    propMin = min + (int)Math.pow(((int)diff/2),2);
-                    count = count + (int)Math.pow(((int)diff/2 + 1),2) + (int)Math.pow(((int)diff/2),2);
-                }
-            }
-        }
-        System.out.println(count);
+        this.recurse(new ArrayList<int[]>(),nums);
+        this.check();
     }
-    public void solve(String[] numSet) {
+    public void recurse(ArrayList<int[]> arr, ArrayList<Integer> nums) {
+        if(nums.size() == 0) {
+            pairs.add(arr);
+            return;
+        }
+        for(int i = 0; i < nums.size(); i++) {
+            for(int j = i+1; j < nums.size(); j++) {
+                int[] pair = new int[2];
+                pair[0] = i;
+                pair[1] = j;
+                arr.add(pair);
+                nums.remove(i);
+                nums.remove(j);
+                this.recurse((ArrayList<int[]>)arr.clone(),nums);
+            }
+        }
+    }
+    public void check() {
+        for(int i = 0; i < pairs.size(); i++) {
+            for(int j = 0; j < pairs.get(i).size(); j++) {
+                System.out.print(pairs.get(i).get(j)[0]  + "," + pairs.get(i).get(j)[1] + "  ");
+            }
+            System.out.println();
+        }
+    }
+    public void valid(int[] pair, ArrayList<int[]> pairs) {
+         int[] currentPos = pair;
 
     }
     public static void main(String[] args) {
