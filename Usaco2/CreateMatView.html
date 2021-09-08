@@ -1,0 +1,616 @@
+ <!doctype html>
+<html>
+  <head>
+    <title>App Engine Demo</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
+    <style>
+        .material {
+             background:  linear-gradient(90deg, hsla(277, 94%, 50%, 1) 0%, hsla(293, 100%, 50%, 1) 100%);
+             padding: 10px;
+             margin:10px;
+             border-radius: 10px;
+             width:20vw;
+        }
+        .materialActive {
+             background:  linear-gradient(90deg, hsla(277, 94%, 50%, 1) 0%, hsla(293, 100%, 50%, 1) 80%);
+             padding: 10px;
+             margin:10px;
+             border-radius: 10px;
+             width:20vw;
+        }
+        .materialText {
+            font-size: 15px; 
+            font-weight: bold;
+            font-family: Quicksand,sans-serif;
+            color: bisque; 
+        }
+        body {
+            overflow:auto;
+            font-family: 'Quicksand';
+            font-size: 14px;
+            margin: 10px;
+        }
+        .topnav {
+            overflow: hidden;
+            background: linear-gradient(90deg, hsla(277, 94%, 50%, 1) 0%, hsla(293, 100%, 50%, 1) 100%);
+            border-radius: 10px;
+            margin-bottom:15px;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .topnav p {
+            float: left;
+            color: bisque;
+            text-align: center;
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .topnav p:hover {
+            color: gainsboro;
+        }
+
+        .topnav p.active {
+            color: black;
+        }
+        .delete {
+            /*margin: 20px;*/
+            background: blueviolet;
+            height: 4em;
+            width: 10em;
+            font-family: 'Quicksand';
+            color:bisque;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 14px;
+            position: absolute;
+            bottom:10px;
+            left:10vw;
+        }
+        .publish {
+            /*margin: 20px;*/
+            background: blueviolet;
+            height: 4em;
+            width: 10em;
+            font-family: 'Quicksand';
+            color:bisque;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 14px;
+            position: absolute;
+            bottom:10px;
+            left:90vw;
+        }
+        .editDetails {
+            background: blueviolet;
+            /*margin: 20px;*/
+            height: 4em;
+            width: 10em;
+            font-family: 'Quicksand';
+            color:bisque;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 14px;
+            position: absolute;
+            bottom:10px;
+            left:60vw;
+        }  
+        .preview {
+            background: blueviolet;
+            /*margin: 20px;*/
+            height: 4em;
+            width: 10em;
+            font-family: 'Quicksand';
+            color:bisque;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 14px;
+            position: absolute;
+            bottom:10px;
+            left:30vw;
+        }   
+        .buttonContainer {
+            clear: both;
+            position:relative;
+            z-index:initial;
+            height:6em;
+            margin-top:10vh;
+        }   
+        .outsideDiv {
+            width:100%;
+            height:100%;
+            background-color: rgba(88, 82, 82, 0.3);
+            position: fixed;
+            left: 0;
+            z-index: 1;
+            top: 0;
+            overflow:auto;
+            display: none;
+        }
+        .popUpDiv {
+            position:absolute;
+            height:500px;
+            width: 400px;
+            background: whitesmoke;
+            box-shadow: 5px 10px 8px #888888;
+            top: 50%;
+            left: 50%;
+            padding:10px;
+            margin:10px;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+        }
+        .container {
+            top:10vh;
+            right:2vw;
+            width:75vw;
+            float:right;
+            padding:10px;
+            margin:10px;
+            border-radius:10px;
+            border:thin solid gainsboro;
+        }
+        .titleDiv {
+            font-family: Quicksand,sans-serif;
+            font-weight: bold;
+            text-align: center;
+            font-size: 20px;
+        }
+        .titleContainer {
+            text-align:center;
+            margin:0 auto;
+        }
+        .contentDiv {
+            text-align:center;
+        }
+        label {
+            font-family: Quicksand,sans-serif;
+            font-size: 20px;
+            padding:10px;
+            margin:10px;
+            width: 30vh;
+        }
+        input {
+            font-family: Quicksand,sans-serif;
+            font-size: 15px;
+            padding:10px;
+            margin:10px;
+        }
+        textarea {
+            font-family: Quicksand,sans-serif;
+            font-size: 15px;
+            padding:10px;
+            margin:10px;
+        }
+        .delMat {
+            margin: 20px;
+            background: blueviolet;
+            height: 4em;
+            width: 10em;
+            font-family: 'Quicksand';
+            color:bisque;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 14px;
+            bottom: 20px;
+            left: 20px;
+            translate: (-50%,-50%);
+        }
+        .publishMat {
+            margin: 20px;
+            background: blueviolet;
+            height: 4em;
+            width: 10em;
+            font-family: 'Quicksand';
+            color:bisque;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 14px;
+            bottom: 20px;
+            right: 20px;
+            float:right;
+        }
+        .questionInput {
+            font-family: Quicksand,sans-serif;
+            text-align: left;
+            font-size: 15px;
+            padding:10px;
+            margin:10px;
+            width: 150px;
+        }
+        .optionInput {
+            font-family: Quicksand,sans-serif;
+            text-align: left;
+            font-size: 12px;
+            padding:10px;
+            margin:10px;
+            width: 100px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="topnav">
+        <p onclick = "navigate('/index.html')">Home</p>
+        <p onclick = "navigate('/TaughtCourses.html')">Courses Taught</p>
+        <p onclick = "navigate('/MyCourses.html')">Courses Enrolled</p>
+        <p onclick = "navigate('/CourseForm.html')">Create a Course</p>
+        <p onclick = "navigate('/HelpGuide.html')">Help Guide</p>
+    </div>
+    <p id = "loadText" style = "font-size: 20px;font-weight: bold;text-align: center;">Loading...</p>
+    <p style = "font-size: 24px; font-weight:bold; text-align: center; float:right; width:60vw; display:none;" id = "tipText">Click a material to edit it.</p>
+    <div class = "container" style= "display:none;" id = "editDiv">
+        <div class = "titleContainer" id = "titleContainer">
+            <input class = "titleDiv" id = "titleDiv"></input>
+            <p style = "font-size: 16px;">Enter the Material Title</p>
+        </div>
+        <div class = "contentDiv" id = "contentDiv"></div>
+        <div class = "material" onclick = "addQuestionHTML()" id = "createQuestion" style = "display:none"><p class = "materialText" style = "text-align:center; font-size: large;" >Add Question</p></div>
+        
+        <button class = "publishMat" type = button onclick = "createMat()" id = "publishMat" >Create Material</button>
+        <button class = "delMat" type = button onclick = "deleteMat()" id = "delMat" >Delete Material</button>
+    </div>
+    <div>
+        <div class = "materialDiv" id = "materialDiv"></div>
+        <div class = "material" onclick = "openPopup()" id = "createButton" style = "display:none"><p class = "materialText" style = "text-align:center; font-size: large;" id = "buttonText">Create a New Material</p></div>
+        <div class = "outsideDiv" id = "outsideDiv">
+            <div class = "popUpDiv">
+                <h2 style = "text-align: center;">Choose Material Type<h2>
+                <br>
+                <div class = "material" onclick = "createVideo()"><p class = "materialText">Create a New Video</p></div>
+                <div class = "material" onclick = "createArticle()"><p class = "materialText">Create a New Article</p></div>
+                <div class = "material" onclick = "createQuiz()"><p class = "materialText">Create a New Quiz</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="buttonContainer">
+        <button class = "delete" type = button onclick = "deleteCourse()" id = "delCourse">Delete Course</button>
+        <button class = "publish" type = button onclick = "finish()" id = "publishCourse" >Publish Course</button> 
+        <button class = "editDetails" type = button onclick = "edit()" id = "editDetails" >Edit Course Details</button>
+        <button class = "preview" type = button onclick = "preview()" id = "prev" >Preview Course</button>
+    </div>
+    <script>
+        var userId = localStorage.getItem("userId");
+        var xhttp = new XMLHttpRequest();
+        var questionNum = 1;
+        var contentDiv = document.getElementById("contentDiv");
+        function getContent() {
+            var titleContainer = document.getElementById("editDiv");
+            var titleDiv = document.getElementById("titleDiv");
+            titleContainer.style.display = "block";
+            document.getElementById("tipText").style.display = "none";
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var jsonObj = JSON.parse(xhttp.responseText);
+                    fillMaterial(jsonObj.Content,jsonObj.ContentType);
+                } else if (this.readyState == 4 && this.status == 500){
+                    var contentType = localStorage.getItem("contentType");
+                    console.log("add question");
+                    if(contentType == "Video") {
+                        titleDiv.value = "";
+                        contentDiv.innerHTML = "<label>Video's Youtube Link:</label><input type=\"text\" id=\"content\" name=\"link\"><br><br>" 
+                    } else if (contentType == "Article") {
+                        titleDiv.value = "";
+                        contentDiv.innerHTML = "<label>Article Content:</label><textarea rows = \"20\" cols = \"50\" id = \"content\" name = \"description\">Enter Article Text Here...</textarea><br><br>"
+                    } else if (contentType == "Quiz") {
+                        titleDiv.value = "";
+                        //contentDiv.innerHTML = "";
+                        addQuestionHTML();
+                        document.getElementById("createQuestion").style.display = "block";
+                    }
+                }
+            };
+            xhttp.open("GET", "/getOrigContent?MatId="+localStorage.getItem("MatId"), true);
+            xhttp.send();
+            if(localStorage.getItem("publishStatus") == "published") {
+                document.getElementById("delMat").style.display = "none";
+                document.getElementById("publishMat").innerHTML = "Submit Material Edit";
+            }
+        }
+        function preview() {
+            localStorage.setItem("TCId",localStorage.getItem("TCIdSuper"));
+            window.location.href = "/MatView.html"
+        }
+        function fillMaterial(content,contentType) {
+            var titleDiv = document.getElementById("titleDiv");
+            titleDiv.value = localStorage.getItem("MatTitle");
+            localStorage.setItem("contentType",contentType);
+            if(contentType == "Video") {
+                contentDiv.innerHTML = "<label>Video's Youtube Link:</label><input type=\"text\" id=\"content\" name=\"link\" value = \""+content+"\"><br><br>" 
+            } else if (contentType == "Article") {
+                contentDiv.innerHTML = "<label>Article Content:</label><textarea rows = \"20\" cols = \"50\" id = \"content\" name = \"description\">"+content+"</textarea><br><br>"
+            } else if (contentType == "Quiz") {
+                this.fillQuiz(content);
+            }
+        }
+        function fillQuiz(quizJSON) {
+            console.log(quizJSON);
+            var json = JSON.parse(quizJSON);
+            console.log(json.questions.length);
+            for(var i = 1; i <= json.questions.length; i++) {
+                var appendStr = "<div id=\""+i+"\"><input type = \"text\" class = \"questionInput\" id = \""+i+"text\" value=\""+json.questions[i-1].qText+"\"></input><br>";
+                for(var j = 1; j <= 4; j++) {
+                    var optionText;
+                    switch(j) {
+                        case 1:
+                            optionText = json.questions[i-1].option1;
+                            break;
+                        case 2 : 
+                            optionText = json.questions[i-1].option2;
+                            break;
+                        case 3 : 
+                            optionText = json.questions[i-1].option3;
+                            break;
+                        case 4 : 
+                            optionText = json.questions[i-1].option4;
+                            break;
+                        
+                    }
+                    if(json.questions[i-1].correctOption == j) {
+                        appendStr = appendStr + "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option"+j+"\" value="+j+" checked></input><input type=\"text\" id=\""+questionNum+"text"+j+"\" class = \"optionInput\" for=\""+questionNum+"option"+j+"\" value=\""+optionText+"\"></input><br>";
+                    } else {
+                        appendStr = appendStr + "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option"+j+"\" value="+j+" ></input><input type=\"text\" id=\""+questionNum+"text"+j+"\" class = \"optionInput\" for=\""+questionNum+"option"+j+"\" value=\""+optionText+"\"></input><br>";
+                    }
+                }
+                appendStr = appendStr + "</div>";
+                contentDiv.innerHTML = contentDiv.innerHTML + appendStr;
+                questionNum = i+1;
+            }
+        }
+        function update() {
+            console.log("update");
+            var title = document.getElementById("titleDiv").value;
+            if(localStorage.getItem("contentType") == "Quiz") {
+                updateQuiz();
+                return;
+            }
+            var content = document.getElementById("content").value;
+            var json = '{"content":"'+content+'","title":"'+title+'"}';
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/updateMat?MatId="+localStorage.getItem("MatId")+"&json="+json+"", true);
+            xhttp.send();
+            window.location.href = "/CreateMatView.html";
+        }
+        function updateQuiz() {
+            var json = JSON.stringify(generateQuizJSON());
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/updateQuiz?MatId="+localStorage.getItem("MatId")+"&content="+json+"", true);
+            xhttp.send();
+            window.location.href = "/CreateMatView.html";
+        }
+        function addQuestionHTML() {
+            if(questionNum == 1) {
+                contentDiv.innerHTML = "<div id=\""+questionNum+"\"><input type = \"text\" class = \"questionInput\" id = \""+questionNum+"text\" value=\"Enter Question Here\"></input><br>"+
+                "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option1\" value=1></input><input type=\"text\" id=\""+questionNum+"text1\" class = \"optionInput\" for=\""+questionNum+"option1\" value=\"Enter Option 1\"></input><br>"+
+                "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option2\" value=2></input><input type=\"text\" id=\""+questionNum+"text2\" class = \"optionInput\" for=\""+questionNum+"option2\" value=\"Enter Option 2\"></input><br>" +
+                "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option3\" value=3></input><input type=\"text\" id=\""+questionNum+"text3\" class = \"optionInput\" for=\""+questionNum+"option3\" value=\"Enter Option 3\"></input><br>" +
+                "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option4\" value=4></input><input type=\"text\" id=\""+questionNum+"text4\" class = \"optionInput\" for=\""+questionNum+"option4\" value=\"Enter Option 4\"></input><br></div>";
+            } else {
+                document.getElementById(questionNum-1).insertAdjacentHTML('afterend', "<div id=\""+questionNum+"\"><input type = \"text\" class = \"questionInput\" id = \""+questionNum+"text\" value=\"Enter Question Here\"></input><br>"+
+                "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option1\" value=1></input><input type=\"text\" id=\""+questionNum+"text1\" class = \"optionInput\" for=\""+questionNum+"option1\" value=\"Enter Option 1\"></input><br>"+
+                "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option2\" value=2></input><input type=\"text\" id=\""+questionNum+"text2\" class = \"optionInput\" for=\""+questionNum+"option2\" value=\"Enter Option 2\"></input><br>" +
+                "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option3\" value=3></input><input type=\"text\" id=\""+questionNum+"text3\" class = \"optionInput\" for=\""+questionNum+"option3\" value=\"Enter Option 3\"></input><br>" +
+                "<input type=\"radio\" name=\""+questionNum+"\" id =\""+questionNum+"option4\" value=4></input><input type=\"text\" id=\""+questionNum+"text4\" class = \"optionInput\" for=\""+questionNum+"option4\" value=\"Enter Option 4\"></input><br></div>");
+            }
+            questionNum++;
+        }
+        function createMat() {
+            var xhttp = new XMLHttpRequest();
+            if(titleCheck(document.getElementById("titleDiv").value)) {
+                var title = document.getElementById("titleDiv").value;
+                var content;
+                if(localStorage.getItem("MatId") != "Nothing") {
+                    update();
+                    return;
+                }
+                if(localStorage.getItem("contentType") == "Quiz") {
+                    content = JSON.stringify(generateQuizJSON());
+                } else {
+                    content = document.getElementById("content").value;;
+                }
+                xhttp.open("GET", "/createMat?TCId="+localStorage.getItem("TCIdSuper")+"&OrderNum="+localStorage.getItem("OrderNum")+"&contentType="+localStorage.getItem("contentType")+"&title="+title+"&content="+content+"", true);
+                xhttp.send();
+                window.location.reload();
+            }
+        }
+        function titleCheck(titleStr) {
+            if(titleStr.length > 0 && titleStr.length < 250) {
+                return true;
+            }
+            alert("Please enter a title for your material.");
+            return false;
+        }
+        function deleteMat() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/delMat?MatId="+localStorage.getItem("MatId")+"", true);
+            xhttp.send();
+            window.location.href = "/CreateMatView.html";
+        }
+    </script>   
+    <script>
+        if(localStorage.getItem("userId") == null) {
+            window.location.href = "index.html";
+        }
+        var userId = localStorage.getItem("userId");
+        var xml = new XMLHttpRequest();
+        var outsideDiv = document.getElementById("outsideDiv");
+        var lastOrderNum = 0;
+        xml.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("loadText").style.display = "none";
+                document.getElementById("tipText").style.display = "block";
+                console.log(xml.responseText);
+                var jsonArr = JSON.parse(xml.responseText);
+                for(i = 0; i < jsonArr.length; i++ ) {
+                    addMaterial(jsonArr[i].MatId, jsonArr[i].Title,jsonArr[i].OrderNum);
+                }
+            } else if (this.status == 500) {
+                document.getElementById("tipText").style.display = "block";
+                document.getElementById("loadText").style.display = "none";
+            }
+        };
+        xml.open("GET", "/getAllMats?TCId="+localStorage.getItem("TCIdSuper")+"&userId="+localStorage.getItem("userId")+"", true);
+        xml.send();
+        checkDel();
+        checkPublish();
+        function addMaterial(MatId,Title,MatOrder) {
+            var matDiv = document.getElementById("materialDiv");
+            matDiv.innerHTML = matDiv.innerHTML + "<div class = \"material\" id = \""+MatId+"\" onclick = \"redirect(this.id,"+MatOrder+",'"+btoa(Title)+"')\"><p class = \"materialText\">"+Title+"</p><div>";
+            lastOrderNum = MatOrder + 1;
+        }
+        function redirect(MatId,orderNum,Title) {
+            localStorage.setItem("MatId",MatId);
+            localStorage.setItem("MatTitle",atob(Title));
+            localStorage.setItem("OrderNum",orderNum);
+            contentType = -1;
+            getContent();
+        }
+        function navigate(link) {
+            localStorage.setItem("TCId","Nothing");
+            window.location.href = link;
+        }
+        function edit() {
+            localStorage.setItem("TCId",localStorage.getItem("TCIdSuper"));
+            window.location.href = "/CourseForm.html";
+        }
+        function finish() {
+            if (checkMatNumber()) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "/publish?TCId="+localStorage.getItem("TCIdSuper")+"", true);
+                xhttp.send();
+                window.location.href = "/index.html"
+            }
+        }
+        function checkMatNumber() {
+            var materials = document.getElementById("materialDiv");
+            if(materials.innerHTML == "") {
+                alert("Please add a few materials before publishing");
+                return false;
+            }
+            return true;
+        }
+        function deleteCourse() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/delTC?TCId="+localStorage.getItem("TCIdSuper")+"", true);
+            xhttp.send();
+            window.location.href = "/index.html";
+        }
+        function createVideo() {
+            localStorage.setItem("MatId","Nothing");
+            localStorage.setItem("contentType","Video");
+            localStorage.setItem("OrderNum",lastOrderNum);
+            contentType = 0;
+            popUpClose();
+            getContent();
+        }
+        function createQuiz() {
+            localStorage.setItem("MatId","Nothing");
+            localStorage.setItem("contentType","Quiz");
+            localStorage.setItem("OrderNum",lastOrderNum);
+            contentType = 2;
+            popUpClose();
+            getContent();
+        }
+        function generateQuizJSON() {
+            var json = {
+                "name":document.getElementById("titleDiv").value,
+                "questions":[]
+            };
+            for(var i = 1; i < questionNum; i++) {
+                var question = document.getElementById(i+"text");
+                var option1 = document.getElementById(i+"text1");
+                var option2 = document.getElementById(i+"text2");
+                var option3 = document.getElementById(i+"text3");
+                var option4 = document.getElementById(i+"text4");
+                var correctOption;
+                for(var j = 1; j <= 4; j++) {
+                    console.log(i+"option"+j);
+                    if(document.getElementById(i+"option"+j).checked) {
+                        correctOption = j;
+                        break;
+                    }
+                }
+                var jsonObj = 
+                {
+                    "qText":question.value,
+                    "option1":option1.value,
+                    "option2":option2.value,
+                    "option3":option3.value,
+                    "option4":option4.value,
+                    "correctOption":correctOption
+                };
+                json.questions.push(jsonObj);
+            }
+            console.log(json);
+            return json;
+        }
+        function openPopup() {
+            outsideDiv.style.display = "block";
+        }
+        function popUpClose() {
+            outsideDiv.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == outsideDiv) {
+                outsideDiv.style.display = "none";
+            }
+        }
+        function createArticle() {
+            localStorage.setItem("MatId","Nothing");
+            localStorage.setItem("contentType","Article");
+            localStorage.setItem("OrderNum",lastOrderNum);
+            contentType = 1;
+            popUpClose();
+            getContent();
+        }
+        function undelete() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/undelete?TCId="+localStorage.getItem("TCIdSuper")+"", true);
+            xhttp.send();
+            window.location.href = "/index.html";
+        }
+        function checkDel () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var jsonObj = JSON.parse(xhttp.responseText);
+                    if(jsonObj.DelStatus) {
+                        var delButton = document.getElementById("delCourse");
+                        delButton.innerHTML = "Undelete";
+                        delButton.setAttribute( "onclick", "undelete();" );
+                        console.log("inside");
+                        localStorage.setItem("publishStatus","published");
+                    }
+                }
+            };
+            xhttp.open("GET", "/getDelStatus?TCId="+localStorage.getItem("TCIdSuper")+"", true);
+            xhttp.send();
+        }
+        function checkPublish() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var jsonObj = JSON.parse(xhttp.responseText);
+                    if(jsonObj.PublishStatus) {
+                        document.getElementById("createButton").style.display = "none";
+                        var publishButton = document.getElementById("publishCourse");
+                        publishButton.innerHTML = "Submit Edits";
+                        publishButton.onlclick = "navigate('/index.html')";
+                        localStorage.setItem("publishStatus","published");
+                    }  else {
+                        localStorage.setItem("publishStatus","notPublished");
+                        document.getElementById("createButton").style.display = "block";
+                    }
+                }
+            };
+            xhttp.open("GET", "/getPublishStatus?TCId="+localStorage.getItem("TCIdSuper")+"", true);
+            xhttp.send();
+        }
+    </script>
+    
+  </body>
+</html>

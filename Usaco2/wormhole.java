@@ -42,19 +42,21 @@ class wormhole {
         for(int i = 0; i < nums.size(); i++) {
             for(int j = i+1; j < nums.size(); j++) {
                 int[] pair = new int[2];
-                pair[0] = i;
-                pair[1] = j;
-                arr.add(pair);
-                nums.remove(i);
-                nums.remove(j);
-                this.recurse((ArrayList<int[]>)arr.clone(),nums);
+                pair[0] = nums.get(i);
+                pair[1] = nums.get(j);ArrayList<int[]> arrClone = (ArrayList<int[]>)arr.clone();
+                ArrayList<Integer> numClone = (ArrayList<Integer>)nums.clone();
+                arrClone.add(pair);
+                numClone.remove(i);
+                numClone.remove(j-1);
+                System.out.println(nums.size());
+                this.recurse(arrClone,numClone);
             }
         }
     }
     public void check() {
         for(int i = 0; i < pairs.size(); i++) {
             for(int j = 0; j < pairs.get(i).size(); j++) {
-                System.out.print(pairs.get(i).get(j)[0]  + "," + pairs.get(i).get(j)[1] + "  ");
+
             }
             System.out.println();
         }
